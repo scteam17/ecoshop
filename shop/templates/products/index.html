@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% include 'navbar.html' %}
+{% include '_messages.html' %}
+
+
+
+
+<div class="container mt-5">
+    {% if barnd %}       
+        <div class="row"></div>
+            {% for b in brand.items %}
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{{url_for('static',filename='images/'+b.image1)}}" alt="{{b.name}}" class="card-img-top"
+                        height="200">
+                    
+                    <div class="card-body">
+                        {% if b.discount >0 %}
+                        <h5>Discount {{b.discount}} %</h5>
+                        {% endif %}
+                        <h5 class="text-center">{{b.name}}</h5>
+                        <p class="text-center">{{b.price}}</p>
+                    </div>
+
+                    <div class="card-footer"></div>
+                    <a href="{{url_for('single_page',id=b.id)}}" class="float-left btn btn-sm btn-primary">details</a>
+                </div>  
+            </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="row ">
+            <div class="col text-center">
+                
+                {% if b.has_prev %}
+                <a href="{{url_for('get_brand',id=get_d.id,page=b.prev_num)}}" class="mt-3 btn btn-sm btn-info">Prev</a>
+                {% endif %}
+
+                {% for page_num in b.iter_pages() %}
+                    {% if page_num %}
+                        {% if b.page==page_num %}
+                        <a href="{{url_for('get_brand',id=get_d.id,page=page_num)}}"
+                            class="mt-3 btn btn-sm btn-info">{{page_num}}</a>
+                        {% else %}
+                        <a href="{{url_for('get_brand',id=get_d.id,page=page_num)}}"
+                        class="mt-3 btn btn-outline-info btn-sm">{{page_num}}</a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+
+                {% if b.has_next %}
+                <a href="{{url_for('get_brand',id=get_d.id,page=b.next_num)}}"
+                class=" mt-3 btn btn-sm btn-outline-info">Next</a>
+                {% endif %}
+            
+            </div>
+        </div>
+
+    {% elif get_cat in get_cat_prod %}
+        {% for get_cat in get_cat_prod.items %}
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="{{url_for('static',filename='images/'+get_cat.image1)}}" alt="{{get_cat.name}}"
+                    class="card-img-top" height="200">
+
+                    <div class="card-body">
+                        {% if get_cat.discount >0 %}
+                        <h5>Discount {{get_cat.discount}} %</h5>
+                        {% endif %}
+
+                        <h5 class="text-center">{{get_cat.name}}</h5>
+                        <p class="text-center">{{get_cat.price}}</p>
+                    </div>
+                    <div class="card-footer"></div>   <!-- TODO:check this footer-->
+
+                    <a href="{{url_for('single_page',id=get_cat.id)}}" class="float-left btn btn-sm btn-primary">details</a>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+            <div class="row ">
+                <div class="col text-center">
+                    {% if get_cat.has_prev %}
+                        <a href="{{url_for('get_category',id=get_cat.id,page=get_cat.prev_num)}}"
+                        class="mt-3 btn btn-sm btn-info">Prev</a>
+                    {% endif %}
+
+                    {% for page_num in get_cat.iter_pages() %}
+                        {% if page_num %}
+                            {% if get_cat.page==page_num %}
+                                <a href="{{url_for('get_category',id=get_cat.id,page=page_num)}}"
+                                class="mt-3 btn btn-sm btn-info">{{page_num}}</a>
+                            {% else %}
+                                <a href="{{url_for('get_category',id=get_cat.id,page=page_num)}}"
+                                class="mt-3 btn btn-outline-info btn-sm">{{page_num}}</a>
+                            {% endif %}
+                        {% else %}}
+                            ...
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if get_cat.has_next %}
+                        <a href="{{url_for('get_category',id=get_cat.id,page=get_cat.next_num)}}"
+                            class=" mt-3 btn btn-sm btn-outline-info">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+
+    {% else %}
+    <div class="row">
+        {% for product in products.items %}
+            <div class="col-md-3">
+                <div class="card">
+                    <a href="{{url_for('single_page',id=product.id)}}" >
+                    <img src="{{url_for('static',filename='images/'+product.image1)}}" alt="{{product.name}}"
+                    class="card-img-top" height="200">
+                </a>
+                    <div class="card-body">
+                        {% if product.discount >0 %}
+                            <h6 style="position: absolute; top: 200px; color: red;">Discount {{product.discount}} %</h5>
+                        {% endif %}
+
+                        <h5 class="text-center">{{product.name}}</h5>
+                        <p class="text-center">{{product.price}}</p>
+
+                    </div>
+
+                    <div class="card-footer"></div>
+                    <a href="{{url_for('single_page',id=product.id)}}" class="float-left btn btn-sm btn-primary">details</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="row ">
+        <div class="col text-center">
+            {% if products.has_prev %}
+                <a href="{{url_for('home',page=products.prev_num)}}" class="mt-3 btn btn-sm btn-info">Prev</a>
+            {% endif %}
+
+            {% for page_num in products.iter_pages() %}
+                {% if page_num %}
+                    {% if products.page==page_num %}
+                        <a href="{{url_for('home',page=page_num)}}" class="mt-3 btn btn-sm btn-info">{{page_num}}</a>
+                    {% else %}
+                        <a href="{{url_for('home',page=page_num)}}" class="mt-3 btn btn-outline-info btn-sm">{{page_num}}</a>
+                    {% endif %}
+                {% else %}}
+                    ...
+                {% endif %}
+            {% endfor %}
+
+            {% if products.has_next %}
+                <a href="{{url_for('home',page=products.next_num)}}" class=" mt-3 btn btn-sm btn-outline-info">Next</a>
+            {% endif %}
+
+        </div>
+    </div>
+        
+    {% endif %}
+    
+</div>
+
+
+
+{% endblock content %}

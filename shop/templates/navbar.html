@@ -1,0 +1,80 @@
+<!-- =======navbar starts====== -->
+<!-- <div class="container"> -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- TITLE -->
+        <a class="navbar-brand " href="#">Shop</a>
+
+
+        <div  id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('home')}}">All Product</a>
+                </li>
+
+                <!-- TODO: FIX THE DROP DOWN IN BOOTSTRAP  -->
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Brands
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        {% for brand in brands %}
+                        <a href="{{url_for('get_brand',id=brand.id)}}" class="dropdown-item">{{brand.name}}</a>
+                        {% endfor %}
+                    </div>
+                </li> -->
+
+
+
+
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        {% for category in categories %}
+                        <a href="{{url_for('get_category',id=category.id)}}" class="dropdown-item">{{category.name}}</a>
+                        {% endfor %}
+                    </div>
+                </li> -->
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link " href="">{{current_user.name}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{{url_for('customer_logout')}}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link " href="{{url_for('customer_logout')}}">Login</a>
+                </li>
+                <!-- THE SIGN IN  -->
+                <li class="nav-item">
+                    <a class="nav-link " href="{{url_for('customer_register')}}">Sign in</a>
+                </li>
+                {% endif %}
+                <!-- THE CART -->
+                <li class="nav-item ">
+                    <a class="nav-link " href="{{url_for('getCart')}}">Cart ({{session['Shoppingcart']|length}})</a>
+                </li>
+
+                <!-- search -->
+                
+             <form class="form-inline my-2 my-lg-0" action="{{url_for('result')}}">
+                 <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" name='q'>
+                 <button class="btn btn-outline-success my-2 my-sm-0 " type="submit">Search</button>
+             </form>
+            
+                
+            </ul>
+           
+        </div>
+    </nav>
+
+<!-- ======nav bar end======== -->
